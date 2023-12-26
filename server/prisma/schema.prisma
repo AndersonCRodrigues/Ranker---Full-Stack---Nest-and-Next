@@ -12,7 +12,7 @@ datasource db {
 
 model Participant {
 
-  id String @id @map("_id") @db.ObjectId
+  id String @id @map("_id") @default(auto()) @db.ObjectId
   poll  Poll  @relation(fields: [pollId], references: [id])
   pollId  String @db.ObjectId
 
@@ -21,11 +21,13 @@ model Participant {
 
 model Poll {
 
-  id String @id @map("_id") @db.ObjectId
+  id String @id @map("_id") @default(auto()) @db.ObjectId
   topic String
-  voterPerVoter Int
+  votesPerVoter Int
   participants  Participant[]
-  adminID String
+  adminId String
+  createdAt DateTime? @default(now())
+  hasStarted Boolean? @default(false)
 
   @@map("poll")
 }

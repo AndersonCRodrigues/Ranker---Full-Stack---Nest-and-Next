@@ -7,25 +7,6 @@ import { createUserID } from 'src/ids';
 export class PollService {
   constructor(private prisma: PrismaService) {}
 
-  // private async createTTLIndex(): Promise<void> {
-  //   try {
-  //     await this.prisma.$runCommandRaw({
-  //       createIndexes: 'Poll',
-  //       indexes: [
-  //         {
-  //           key: {
-  //             createdAt: 1,
-  //           },
-  //           name: 'createdAt_ttl_index',
-  //           expireAfterSeconds: 3600,
-  //         },
-  //       ],
-  //     });
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
-
   async createPoll(fields: CreatePollDto) {
     const newPoll = {
       topic: fields.topic,
@@ -33,7 +14,6 @@ export class PollService {
       adminId: createUserID(),
     };
 
-    // await this.createTTLIndex();
     return this.prisma.poll.create({ data: newPoll });
   }
 }

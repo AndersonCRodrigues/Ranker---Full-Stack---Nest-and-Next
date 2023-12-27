@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "start": "docker-compose up -d --build",
-    "stop": "docker-compose down"
+    "docker:compose:up": "docker-compose up -d --build",
+    "docker:compose:down": "docker-compose down",
+    "server:dev": "npm run start:dev --workspaces=server",
+    "prisma:migrate": "npm run prisma:migrate --workspaces=server"
   },
   "keywords": [],
   "author": "",

@@ -15,6 +15,7 @@ model Participant {
   id String @id @map("_id") @default(auto()) @db.ObjectId
   poll  Poll  @relation(fields: [pollId], references: [id])
   pollId  String @db.ObjectId
+  createdAt DateTime @default(now())
 
   @@map("participant")
 }
@@ -26,8 +27,8 @@ model Poll {
   votesPerVoter Int
   participants  Participant[]
   adminId String
-  createdAt DateTime? @default(now())
-  hasStarted Boolean? @default(false)
+  hasStarted Boolean @default(false)
+  createdAt DateTime @default(now())
 
   @@map("poll")
 }

@@ -15,7 +15,7 @@ export class CreatePollDto {
   name: string;
 }
 
-export class JoinPollDto {
+export class AddParticipantDto {
   @IsString()
   @Length(1, 100)
   pollId: string;
@@ -23,4 +23,14 @@ export class JoinPollDto {
   @IsString()
   @Length(1, 25)
   name: string;
+}
+
+export class RemoveParticipantDto {
+  @IsString()
+  @Length(1, 100)
+  pollId: string;
+
+  @IsString()
+  @Length(1, 100)
+  userId: string;
 }

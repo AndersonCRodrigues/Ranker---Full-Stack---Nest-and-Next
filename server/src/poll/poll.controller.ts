@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { PollService } from './poll.service';
-import { CreatePollDto, JoinPollDto } from './poll.dto';
+import { CreatePollDto, AddParticipantDto } from './poll.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('poll')
@@ -19,7 +19,7 @@ export class PollController {
   }
 
   @Post('/join')
-  async join(@Body() joinPollDto: JoinPollDto) {
-    return this.pollService.joinPoll(joinPollDto);
+  async join(@Body() addParticipantDto: AddParticipantDto) {
+    return this.pollService.addParticipant(addParticipantDto);
   }
 }

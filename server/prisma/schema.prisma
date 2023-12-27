@@ -10,22 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Participant {
-
-  id String @id @map("_id") @default(auto()) @db.ObjectId
-  poll  Poll  @relation(fields: [pollId], references: [id])
-  pollId  String @db.ObjectId
-  createdAt DateTime @default(now())
-
-  @@map("participant")
-}
-
 model Poll {
 
   id String @id @map("_id") @default(auto()) @db.ObjectId
   topic String
   votesPerVoter Int
-  participants  Participant[]
+  participants  Json
   adminId String
   hasStarted Boolean @default(false)
   createdAt DateTime @default(now())

@@ -14,3 +14,13 @@ export class CreatePollDto {
   @Length(1, 25)
   name: string;
 }
+
+export class JoinPollDto {
+  @IsString()
+  @Length(1, 100)
+  pollId: string;
+
+  @IsString()
+  @Length(1, 25)
+  name: string;
+}

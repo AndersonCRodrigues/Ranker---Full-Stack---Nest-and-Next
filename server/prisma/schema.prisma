@@ -13,6 +13,7 @@ datasource db {
 model Poll {
 
   id String @id @map("_id") @default(auto()) @db.ObjectId
+  pollId String @unique
   topic String
   votesPerVoter Int
   participants  Json

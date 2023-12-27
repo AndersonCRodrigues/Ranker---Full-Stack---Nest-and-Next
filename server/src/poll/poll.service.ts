@@ -9,7 +9,7 @@ import {
   AddParticipantDto,
   RemoveParticipantDto,
 } from './poll.dto';
-import { createUserID } from 'src/util/ids';
+import { createPollID, createUserID } from 'src/util/ids';
 
 @Injectable()
 export class PollService {
@@ -19,20 +19,28 @@ export class PollService {
     const adminId = createUserID();
 
     const newPoll = {
+      pollId: createPollID(),
       topic: fields.topic,
       votesPerVoter: fields.votesPerVoter,
       adminId,
       participants: { [adminId]: fields.name },
     };
-
-    return this.prisma.poll.create({ data: newPoll });
+    try {
+      const poll = await this.prisma.poll.create({ data: newPoll });
+      return {
+        poll,
+        acessToken: 'token',
+      };
+    } catch {
+      throw new InternalServerErrorException();
+    }
   }
 
   async getPoll(pollId: string) {
     try {
-      return this.prisma.poll.findUnique({
+      return this.prisma.poll.findFirst({
         where: {
-          id: pollId,
+          pollId,
         },
       });
     } catch (e) {
@@ -51,7 +59,7 @@ export class PollService {
 
       return this.prisma.poll.update({
         where: {
-          id: fields.pollId,
+          pollId: fields.pollId,
         },
         data: {
           participants: poll.participants,
@@ -69,7 +77,7 @@ export class PollService {
 
       await this.prisma.poll.update({
         where: {
-          id: fields.pollId,
+          pollId: fields.pollId,
         },
         data: {
           participants: poll.participants,

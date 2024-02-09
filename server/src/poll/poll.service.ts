@@ -10,10 +10,14 @@ import {
   RemoveParticipantDto,
 } from './poll.dto';
 import { createPollID, createUserID } from 'src/util/ids';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class PollService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private authService: AuthService,
+  ) {}
 
   async createPoll(fields: CreatePollDto) {
     const adminId = createUserID();
@@ -27,9 +31,14 @@ export class PollService {
     };
     try {
       const poll = await this.prisma.poll.create({ data: newPoll });
+      const acessToken = await this.authService.signIn({
+        name: fields.name,
+        pollId: newPoll.pollId,
+        userId: newPoll.adminId,
+      });
       return {
         poll,
-        acessToken: 'token',
+        acessToken,
       };
     } catch {
       throw new InternalServerErrorException();
